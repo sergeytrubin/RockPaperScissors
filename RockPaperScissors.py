@@ -3,18 +3,36 @@
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
 
-moves = ['rock', 'paper', 'scissors']
+# moves = ['rock', 'paper', 'scissors']
 
 """The Player class is the parent class for all of the Players
 in this game"""
 
 
 class Player:
+    moves = ['rock', 'paper', 'scissors']
+
     def move(self):
         return 'rock'
 
     def learn(self, my_move, their_move):
         pass
+
+
+class HumanPlayer(Player):
+    pass
+
+
+class RandomPlayer(Player):
+    pass
+
+
+class ReflectPlayer(Player):
+    pass
+
+
+class CyclePlayer(Player):
+    pass
 
 
 def beats(one, two):
