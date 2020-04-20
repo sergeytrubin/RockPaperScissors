@@ -32,7 +32,21 @@ class RandomPlayer(Player):
 
 
 class ReflectPlayer(Player):
-    pass
+    def __init__(self):
+        self.my_move = None
+        self.their_move = 'rock'
+
+    def  learn(self, my_move, their_move):
+        self.my_move = my_move
+        self.their_move = their_move
+
+    def move(self):
+        return self.their_move
+
+
+class RockPlayer(Player):
+    def move(self):
+        return 'rock'
 
 
 class CyclePlayer(Player):
@@ -70,6 +84,6 @@ class Game:
 
 
 if __name__ == '__main__':
-    players = [RandomPlayer(), ReflectPlayer(), CyclePlayer()]
-    game = Game(CyclePlayer(), RandomPlayer())
+    players = [RandomPlayer(), ReflectPlayer(), CyclePlayer(), RockPlayer()]
+    game = Game(CyclePlayer(), ReflectPlayer())
     game.play_game()
