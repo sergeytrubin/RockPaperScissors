@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import random
+from itertools import cycle
 
 
 """This program plays a game of Rock, Paper, Scissors between two Players,
@@ -35,7 +36,11 @@ class ReflectPlayer(Player):
 
 
 class CyclePlayer(Player):
-    pass
+    def __init__(self):
+        self.moves_cycle = cycle(self.moves)
+
+    def move(self):
+        return next(self.moves_cycle)
 
 
 def beats(one, two):
@@ -58,12 +63,13 @@ class Game:
 
     def play_game(self):
         print("Game start!")
-        for round in range(3):
+        for round in range(9):
             print(f"Round {round}:")
             self.play_round()
         print("Game over!")
 
 
 if __name__ == '__main__':
-    game = Game(Player(), RandomPlayer())
+    players = [RandomPlayer(), ReflectPlayer(), CyclePlayer()]
+    game = Game(CyclePlayer(), RandomPlayer())
     game.play_game()
