@@ -11,6 +11,37 @@ and reports both Player's scores each round."""
 """The Player class is the parent class for all of the Players
 in this game"""
 
+win_p1 = 0
+win_p2 = 0
+def beats(one, two):
+    return ((one == 'rock' and two == 'scissors') or
+            (one == 'scissors' and two == 'paper') or
+            (one == 'paper' and two == 'rock'))
+
+
+
+""" def game_result(player1, player2):
+    win_p1 = 0
+    win_p2 = 0
+    print(f"player1 {player1} --- player2 {player2}")
+    if player1 == player2:
+        print("Tie")
+        return win_p1, win_p2
+    elif beats(player1, player2):
+        win_p1 += 1
+        print("player1 win")
+        return win_p1, win_p2
+    else:
+        win_p2 += 1
+        print("player2 win")
+        return win_p1, win_p2
+
+if __name__ == "__main__":
+    for i in range(9):
+        win_p1, win_p2 = game_result(random.choice(moves), random.choice(moves))
+        print(f"\nGame result: Player1 {win_p1} wins. Player2 {win_p2} wins")
+        sleep(2)
+ """
 
 class Player:
     moves = ['rock', 'paper', 'scissors']
