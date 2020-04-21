@@ -11,13 +11,6 @@ and reports both Player's scores each round."""
 """The Player class is the parent class for all of the Players
 in this game"""
 
-win_p1 = 0
-win_p2 = 0
-def beats(one, two):
-    return ((one == 'rock' and two == 'scissors') or
-            (one == 'scissors' and two == 'paper') or
-            (one == 'paper' and two == 'rock'))
-
 
 
 """ def game_result(player1, player2):
@@ -54,7 +47,16 @@ class Player:
 
 
 class HumanPlayer(Player):
-    pass
+    def __init__(self):
+        self.human_move = ''
+
+    def get_input(self):
+        pass
+
+    def move(self):
+        while self.human_move not in self.moves:
+            self.human_move = input("Rock, paper, scissors? > ")
+            return self.human_move
 
 
 class RandomPlayer(Player):
@@ -93,28 +95,47 @@ def beats(one, two):
             (one == 'scissors' and two == 'paper') or
             (one == 'paper' and two == 'rock'))
 
+def game_result(player1, player2, win_p1, win_p2):
+    if player1 == player2:
+        print("** TIE **")
+        return win_p1, win_p2
+    elif beats(player1, player2):
+        win_p1 += 1
+        print("** PLAYER ONE WINS **")
+        return win_p1, win_p2
+    else:
+        win_p2 += 1
+        print("** PLAYER TWO WINS **")
+        return win_p1, win_p2
 
 class Game:
     def __init__(self, p1, p2):
         self.p1 = p1
         self.p2 = p2
+        self.w1 = 0
+        self.w2 = 0
+        self.game_mode = 9
 
     def play_round(self):
         move1 = self.p1.move()
         move2 = self.p2.move()
-        print(f"Player 1: {move1}  Player 2: {move2}")
+        print(f"You played: {move1}\nOpponent played: {move2}")
+        self.w1, self.w2 = game_result(move1, move2, self.w1, self.w2)
+        print(f"Score: Player One {self.w1}, Player Two {self.w2}")
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
 
     def play_game(self):
         print("Game start!")
-        for round in range(9):
-            print(f"Round {round}:")
+        for round in range(self.game_mode):
+            print(f"\nRound {round} --")
             self.play_round()
         print("Game over!")
 
 
+
+
 if __name__ == '__main__':
     players = [RandomPlayer(), ReflectPlayer(), CyclePlayer(), RockPlayer()]
-    game = Game(CyclePlayer(), ReflectPlayer())
+    game = Game(HumanPlayer(), random.choice(players))
     game.play_game()
