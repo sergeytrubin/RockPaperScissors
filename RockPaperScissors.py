@@ -157,6 +157,7 @@ def verify_user_input(choice_range):
             print('Please choose the game mode > ')
 
 
+# Game class that defines the game flow.
 class Game:
     def __init__(self, p1, p2):
         self.p1 = p1
