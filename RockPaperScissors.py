@@ -2,7 +2,7 @@
 import random
 from itertools import cycle
 import os
-os.system('') #enable VT100 Escape Sequence for WINDOWS 10
+os.system('')  # enable VT100 Escape Sequence for WINDOWS 10
 
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
@@ -12,6 +12,7 @@ and reports both Player's scores each round."""
 in this game"""
 
 
+# class template for other player classes
 class Player:
     moves = ['rock', 'paper', 'scissors', 'lizard', 'spock']
 
@@ -19,10 +20,10 @@ class Player:
         return 'rock'
 
     def learn(self, my_move, their_move):
-        # method template for players classes that need to remember moves
-        pass
+        pass  # method template for player class that need to remember moves
 
 
+# Human player class - moves according to user input
 class HumanPlayer(Player):
     def __init__(self):
         self.human_move = ''
@@ -38,6 +39,7 @@ class HumanPlayer(Player):
         return self.human_move
 
 
+# Player moves are random choises from the list of moves
 class RandomPlayer(Player):
     def learn(self, my_move, their_move):
         # This class don't need to remember anything
@@ -47,6 +49,7 @@ class RandomPlayer(Player):
         return random.choice(self.moves)
 
 
+# Player plays the last play of his opponent
 class ReflectPlayer(Player):
     def __init__(self):
         self.my_move = None
@@ -60,6 +63,7 @@ class ReflectPlayer(Player):
         return self.their_move
 
 
+# Player always plays a rock
 class RockPlayer(Player):
     def learn(self, my_move, their_move):
         # This class don't need to remember anything
@@ -69,6 +73,7 @@ class RockPlayer(Player):
         return 'rock'
 
 
+# Player cycles through the list of moves
 class CyclePlayer(Player):
     def __init__(self):
         self.moves_cycle = cycle(self.moves)
@@ -81,6 +86,7 @@ class CyclePlayer(Player):
         return next(self.moves_cycle)
 
 
+# Function to check who wins
 def beats(one, two):
     return ((one == 'rock' and two == 'scissors') or
             (one == 'scissors' and two == 'paper') or
@@ -94,6 +100,7 @@ def beats(one, two):
             (one == 'spock' and two == 'rock'))
 
 
+# Function to print description of the winning move
 def beats_desc(one, two):
     CHD = '\033[91m'
     CEND = '\033[0m'
@@ -119,6 +126,7 @@ def beats_desc(one, two):
         print(CHD + "Spock vaporizes Rock" + CEND)
 
 
+# Function to check who wins
 def game_result(player1, player2, win_p1, win_p2):
     if player1 == player2:
         print('\033[93m' + '** TIE! **' + '\033[0m')
