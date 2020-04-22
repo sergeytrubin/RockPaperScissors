@@ -94,16 +94,43 @@ def beats(one, two):
             (one == 'spock' and two == 'rock'))
 
 
+def beats_desc(one, two):
+    CHD = '\033[91m'
+    CEND = '\033[0m'
+    if (one == 'rock' and two == 'scissors'):
+        print(CHD + "Rock crushes Scissors" + CEND)
+    elif (one == 'scissors' and two == 'paper'):
+        print(CHD + "Scissors cuts Paper" + CEND)
+    elif (one == 'paper' and two == 'rock'):
+        print(CHD + "Paper covers Rock" + CEND)
+    elif (one == 'rock' and two == 'lizard'):
+        print(CHD + "Rock crushes Lizard" + CEND)
+    elif (one == 'lizard' and two == 'spock'):
+        print(CHD + "Lizard poisons Spock" + CEND)
+    elif (one == 'spock' and two == 'scissors'):
+        print(CHD + "Spock smashes Scissors" + CEND)
+    elif (one == 'scissors' and two == 'lizard'):
+        print(CHD + "Scissors decapitates Lizard" + CEND)
+    elif (one == 'lizard' and two == 'paper'):
+        print(CHD + "Lizard eats Paper" + CEND)
+    elif (one == 'paper' and two == 'spock'):
+        print(CHD + "Paper disproves Spock" + CEND)
+    elif (one == 'spock' and two == 'rock'):
+        print(CHD + "Spock vaporizes Rock" + CEND)
+
+
 def game_result(player1, player2, win_p1, win_p2):
     if player1 == player2:
         print('\033[93m' + '** TIE! **' + '\033[0m')
         return win_p1, win_p2
     elif beats(player1, player2):
         win_p1 += 1
+        beats_desc(player1, player2)
         print('\033[32m' + '** PLAYER ONE WINS! **' + '\033[0m')
         return win_p1, win_p2
     else:
         win_p2 += 1
+        beats_desc(player2, player1)
         print('\033[31m' + '** PLAYER TWO WINS! **' + '\033[0m')
         return win_p1, win_p2
 
@@ -147,32 +174,32 @@ class Game:
             self.game_mode = int(self.game_mode)
 
     def play_round(self):
-        hd = "\033[96m"
-        cend = "\033[00m"
+        CHD = "\033[96m"
+        CEND = "\033[00m"
         move1 = self.p1.move()
         move2 = self.p2.move()
-        print("You played:" + hd + f"{move1}" + cend)
-        print("Opponent played:" + hd + f"{move2}" + cend)
+        print("You played:" + CHD + f"{move1}" + CEND)
+        print("Opponent played:" + CHD + f"{move2}" + CEND)
         self.w1, self.w2 = game_result(move1, move2, self.w1, self.w2)
         print(f"Score: Player One {self.w1}, Player Two {self.w2}")
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
 
     def play_game(self):
-        hd = "\033[95m"
-        cend = "\033[00m"
-        print(hd + "GAME START!" + cend)
+        CHD = "\033[95m"
+        CEND = "\033[00m"
+        print(CHD + "GAME START!" + CEND)
         self.select_game_mode()
         for round in range(self.game_mode):
             print(f"\nRound {round} --")
             self.play_round()
         if self.w1 > self.w2:
-            print(hd + '** THE WINNER IS PLAYER 1**' + cend)
+            print(CHD + '** THE WINNER IS PLAYER 1**' + CEND)
         elif self.w1 < self.w2:
-            print(hd + '** THE WINNER IS PLAYER 2**' + cend)
+            print(CHD + '** THE WINNER IS PLAYER 2**' + CEND)
         else:
-            print(hd + "** IT'S A TIE!**" + cend)
-        print(hd + "GAME OVER!" + cend)
+            print(CHD + "** IT'S A TIE!**" + CEND)
+        print(CHD + "GAME OVER!" + CEND)
 
 
 if __name__ == '__main__':
