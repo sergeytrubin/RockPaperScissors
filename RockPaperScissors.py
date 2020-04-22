@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import random
 from itertools import cycle
-
+import os
+os.system('') #enable VT100 Escape Sequence for WINDOWS 10
 
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
@@ -31,9 +32,9 @@ class HumanPlayer(Player):
         pass
 
     def move(self):
-        self.human_move = input("Rock, paper, scissors? > ").lower()
+        self.human_move = input(" ,".join(self.moves) + " > ").lower()
         while self.human_move not in self.moves:
-            self.human_move = input("Rock, paper, scissors? > ").lower()
+            self.human_move = input(" ,".join(self.moves) + " > ").lower()
         return self.human_move
 
 
@@ -95,15 +96,15 @@ def beats(one, two):
 
 def game_result(player1, player2, win_p1, win_p2):
     if player1 == player2:
-        print("** TIE **")
+        print('\033[93m' + '** TIE! **' + '\033[0m')
         return win_p1, win_p2
     elif beats(player1, player2):
         win_p1 += 1
-        print("** PLAYER ONE WINS **")
+        print('\033[32m' + '** PLAYER ONE WINS! **' + '\033[0m')
         return win_p1, win_p2
     else:
         win_p2 += 1
-        print("** PLAYER TWO WINS **")
+        print('\033[31m' + '** PLAYER TWO WINS! **' + '\033[0m')
         return win_p1, win_p2
 
 
@@ -146,30 +147,35 @@ class Game:
             self.game_mode = int(self.game_mode)
 
     def play_round(self):
+        hd = "\033[96m"
+        cend = "\033[00m"
         move1 = self.p1.move()
         move2 = self.p2.move()
-        print(f"You played: {move1}\nOpponent played: {move2}")
+        print("You played:" + hd + f"{move1}" + cend)
+        print("Opponent played:" + hd + f"{move2}" + cend)
         self.w1, self.w2 = game_result(move1, move2, self.w1, self.w2)
         print(f"Score: Player One {self.w1}, Player Two {self.w2}")
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
 
     def play_game(self):
-        print("Game start!")
+        hd = "\033[95m"
+        cend = "\033[00m"
+        print(hd + "GAME START!" + cend)
         self.select_game_mode()
         for round in range(self.game_mode):
             print(f"\nRound {round} --")
             self.play_round()
         if self.w1 > self.w2:
-            print('** THE WINNER IS PLAYER 1 **')
+            print(hd + '** THE WINNER IS PLAYER 1**' + cend)
         elif self.w1 < self.w2:
-            print('** THE WINNER IS PLAYER 2 **')
+            print(hd + '** THE WINNER IS PLAYER 2**' + cend)
         else:
-            print("** IT'S A TIE **")
-        print("Game over!")
+            print(hd + "** IT'S A TIE!**" + cend)
+        print(hd + "GAME OVER!" + cend)
 
 
 if __name__ == '__main__':
-    players = [RandomPlayer(), ReflectPlayer(), CyclePlayer(), RockPlayer()]
+    players = [RandomPlayer(), ReflectPlayer(), RockPlayer(), CyclePlayer()]
     game = Game(HumanPlayer(), random.choice(players))
     game.play_game()
